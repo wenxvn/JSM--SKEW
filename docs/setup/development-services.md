@@ -43,10 +43,23 @@
 3. 在浏览器开发工具中确认没有服务端密钥、Oxylabs 密码或 OpenAI API Key。
 4. 确认 Supabase、Oxylabs 和 OpenAI 控制台没有新增数据、抓取运行或模型调用。
 
+## 7. PostHog 开发观测
+
+1. 为本地开发使用独立的 PostHog 项目。不要把开发、预发布或生产项目令牌混用。
+2. 在该开发项目的设置页面取得浏览器公开项目令牌，并确认其所属区域的采集端点。只将两者填入本机 `.env.local` 的 `NEXT_PUBLIC_POSTHOG_KEY` 和 `NEXT_PUBLIC_POSTHOG_HOST`，不要提交 `.env.local`，也不要把值发送到聊天、日志或提示词。
+3. 重启 `npm run dev`。缺少 `NEXT_PUBLIC_POSTHOG_KEY` 时，应用不会初始化 PostHog，也不会发送 PostHog 请求。
+4. 当前版本只允许匿名 `$pageview` 与 `$pageleave` 事件。事件只保留清理后的路径和 SDK 运行所需的匿名技术字段。不会发送查询参数、片段、来源页、页面标题、文章内容、文章 URL、来源名称、搜索词、表单输入、Clerk 用户资料、认证状态、邮箱、Cookie、令牌或服务端密钥。
+5. 代码已禁用自动点击采集、rage click、Session Replay、自动异常采集、性能采集、调查、实验、Feature Flags、用户识别和 person profile 处理。不要在 PostHog 控制台以更宽松的项目设置绕过这些代码边界。
+6. 验证时在浏览器网络面板筛选 PostHog 请求，确认首次访问只出现 `$pageview`，离开页面时只出现 `$pageleave`。用含测试查询参数与片段的本地地址访问时，确认事件中只保留路径。
+7. 本仓库当前没有测试运行器。属性净化逻辑位于 `lib/posthog/privacy.ts`，后续引入测试基础设施时应优先为其补充允许事件、拒绝事件、URL 净化和 `$set` 删除的单元测试。
+
+本次未配置 PostHog 控制台、Vercel 环境变量或生产项目，也未发送真实事件。任何生产环境变量配置、生产事件收集策略变更、数据导出、保留期调整、权限变更或实际生产事件发送，都必须在执行前取得针对目标环境的明确批准。
+
 ## 后续需单独批准的工作
 
 - Clerk 与 Supabase 的身份互信和 JWT 配置。
 - Supabase 迁移、RLS、pgvector、新闻源及任何数据写入。
 - Oxylabs 的真实抓取、Scheduler 创建或修改。
 - OpenAI 的文章分析请求和成本控制策略。
-- PostHog 的事件设计与隐私边界。
+- 新增 PostHog 自定义事件、扩大事件字段或调整隐私边界。
+- PostHog 的生产环境变量配置与实际生产事件发送。
