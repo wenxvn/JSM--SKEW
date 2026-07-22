@@ -16,12 +16,19 @@
 
 部署 ID 为 `dpl_5L3TooUajS4XFGarV7NsdqekFwp9`，Vercel 状态为 `Ready`。生产地址为 `https://jsm-skew.vercel.app`。
 
-当前项目的 Vercel Production 环境变量列表为空。部署构建成功，但在用户将运行所需变量配置到 Vercel 前，无法确认首页与 Clerk 登录页可正常使用。本地执行环境对生产地址的无登录 HTTP 检查在 10 秒后超时，未读取业务数据。
+首次部署时，项目的 Vercel Production 环境变量列表为空。部署构建成功，但在用户将运行所需变量配置到 Vercel 前，无法确认首页与 Clerk 登录页可正常使用。本地执行环境对生产地址的无登录 HTTP 检查在 10 秒后超时，未读取业务数据。
+
+## 环境变量配置后的重新部署
+
+用户已在 Vercel Dashboard 为 Production 配置运行所需变量后，执行第二次 Production 部署。新部署 ID 为 `dpl_HyRn2YL7o4onAwbQZJhQsEc8Uu2f`，Vercel 状态为 `Ready`，并已将 `https://jsm-skew.vercel.app` 指向该部署。
+
+仅核对了变量名称与目标环境，未读取或记录任何变量值。当前执行环境再次对正式域名进行无登录 HTTP 检查，连接在 10 秒后超时，未读取业务数据。因此页面功能仍需在用户的浏览器中完成登录和首页验收。
 
 ## 链接与运行 ID
 
 - Vercel Inspect: `https://vercel.com/wenxvns-projects/jsm-skew/5L3TooUajS4XFGarV7NsdqekFwp9`
 - Production: `https://jsm-skew.vercel.app`
+- 最新 Vercel Inspect: `https://vercel.com/wenxvns-projects/jsm-skew/HyRn2YL7o4onAwbQZJhQsEc8Uu2f`
 
 ## 回滚路径
 
