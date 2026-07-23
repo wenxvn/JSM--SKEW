@@ -8,6 +8,15 @@ function requireServerEnvironmentVariable(name: string, value: string | undefine
   return value;
 }
 
+export function getSupabaseServerEnvironment() {
+  return {
+    secretKey: requireServerEnvironmentVariable(
+      "SUPABASE_SECRET_KEY",
+      process.env.SUPABASE_SECRET_KEY,
+    ),
+  };
+}
+
 export function getOxylabsEnvironment() {
   return {
     password: requireServerEnvironmentVariable(

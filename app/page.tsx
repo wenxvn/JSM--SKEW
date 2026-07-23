@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
-import HomeNewsPreview from "@/components/home-news-preview";
+import HomeNews from "@/components/home-news";
+import { getAnalyzedArticles } from "@/lib/supabase/queries";
 
 export default async function Home() {
   const { isAuthenticated, redirectToSignIn } = await auth();
@@ -8,5 +9,6 @@ export default async function Home() {
     return redirectToSignIn();
   }
 
-  return <HomeNewsPreview />;
+  const articles = await getAnalyzedArticles();
+  return <HomeNews articles={articles} />;
 }
